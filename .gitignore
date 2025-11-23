@@ -1,0 +1,27 @@
+# Models
+models/
+*.gguf
+*.bin
+
+# Virtual Environment & Python junk
+__pycache__/
+*.py[cod]
+venv/
+env/
+.venv/
+
+# PyInstaller Build Folders
+build/
+dist/
+
+# VS Code settings
+.vscode/
+
+# Audio logs
+*.wav
+
+# Selenium cache
+.wdm/
+
+# Config files (user-specific)
+vision_config.json
