@@ -1,32 +1,287 @@
-# 👁️ VISION AI - Ultra-Fast Voice Assistant
+# 👁️ VISION AI v2.1 - Ultra-Fast Voice Assistant
 
-> **Lightning-Fast, Pattern-Matching Voice Assistant for Windows**
-> *Controlled via Push-to-Talk (Ctrl+Win) | Powered by Whisper*
+> **Lightning-Fast, Pattern-Matching Voice Assistant for Windows**  
+> *Controlled via Push-to-Talk (Ctrl+Win) | Powered by Whisper | No LLM Required*
 
-![Status](https://img.shields.io/badge/Status-Active-brightgreen) ![Python](https://img.shields.io/badge/Python-3.13-blue) ![Speed](https://img.shields.io/badge/Response-<0.5s-orange)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen) 
+![Python](https://img.shields.io/badge/Python-3.13-blue) 
+![Speed](https://img.shields.io/badge/Response-<0.5s-orange)
+![Offline](https://img.shields.io/badge/Offline-Voice%20Only-purple)
 
-## 🚀 What is VISION?
-VISION AI is a **Lightning-Fast System Controller**. It uses pure pattern matching (no LLM) for instant command execution.
-Voice recognition via Whisper, browser automation via Selenium, and regex-based command parsing for ultra-low latency.
+---
 
-## ⚙️ Whisper Model Configuration
+## 🚀 What is VISION AI?
 
-Change accuracy in `vision_ai.py` line 17:
+**VISION AI** is a **blazing-fast, offline-capable voice assistant** designed for Windows power users. Unlike bloated AI assistants that require internet and cloud processing, VISION AI:
+
+- ⚡ **Executes commands instantly** using pure pattern matching (no AI inference delays)
+- 🎤 **Recognizes voice offline** via Whisper (Hugging Face)
+- 🖥️ **Launches any app** - Desktop apps, Microsoft Store (UWP) apps, and web URLs
+- 🌐 **Automates browsers** with Selenium for YouTube searches and web tasks
+- 🔒 **Respects privacy** - No cloud, no telemetry, no data collection
+- 📊 **System monitoring** - Real-time CPU/RAM stats in UI
+- 🎨 **Modern UI** with CustomTkinter dark theme and system tray support
+
+---
+
+## ✨ Key Features
+
+### 🎯 Smart Command Execution
+- **App Launcher**: Open any Windows app by name
+  - Desktop apps: `open notepad`, `open chrome`, `open vscode`
+  - Microsoft Store apps: `open zoom workplace`, `open whatsapp`
+  - System utilities: `open windows settings`, `open calculator`
+  
+- **Browser Automation**: Intelligent YouTube search with Selenium
+  - `browse dhruv rathee youtube` - Opens YouTube and searches
+  - `search coding tutorial yt` - Alternative syntax
+  - Persistent browser session (no repeated Chrome launches)
+
+- **Web Shortcuts**: Quick access to common sites
+  - `open github`, `open gmail`, `open reddit`
+  - `search python tutorials` - Google search
+
+- **System Info**: On-demand stats
+  - `cpu` - Show CPU usage
+  - `ram` - Show memory usage
+  - `time` / `date` - Current time/date
+
+### 🎤 Voice Recognition
+- **Whisper Model**: Offline speech-to-text (Hugging Face)
+- **Hotkey Activation**: Hold `Ctrl+Windows` to speak
+- **Text Input**: Type commands directly (with Enter key)
+- **Command History**: Navigate with Up/Down arrows
+
+### 🎨 User Interface
+- **Dark Theme**: Powered by CustomTkinter
+- **System Tray**: Minimize to tray, always accessible
+- **Settings Panel**: Customize hotkey (default: `Ctrl+Windows`)
+- **Live Stats**: CPU/RAM monitoring in header
+- **Chat History**: 10 recent commands stored
+- **Copy Feature**: Copy last response to clipboard
+
+---
+
+## 🛠️ Installation
+
+### Prerequisites
+- **Windows 10/11** (64-bit)
+- **Python 3.10+** (Tested on Python 3.13)
+- **Git** (optional, for cloning)
+
+### Quick Setup
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/HR-894/VISION_AI.git
+   cd VISION_AI
+   ```
+
+2. **Create Virtual Environment**
+   ```bash
+   python -m venv .venv
+   .venv\Scripts\activate
+   ```
+
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run VISION AI**
+   ```bash
+   python vision_ai.py
+   ```
+   Or double-click `Run_VISION.bat`
+
+---
+
+## ⚙️ Configuration
+
+### Whisper Model Selection
+
+Edit `vision_ai.py` (line 17) to change voice recognition accuracy:
+
 ```python
-WHISPER_SIZE = "base"  # Options below
+WHISPER_SIZE = "base"  # Change this
 ```
 
-**Available Models (ordered by accuracy):**
-- `tiny` - Fastest, lowest accuracy (39M params, ~75MB) ⚡
-- `base` - Balanced, good accuracy (74M params, ~142MB) ✅ **RECOMMENDED**
-- `small` - Better accuracy (244M params, ~466MB)
-- `medium` - High accuracy (769M params, ~1.5GB)
-- `large-v3` - Best accuracy (1550M params, ~2.9GB) 🎯
+| Model | Speed | Accuracy | Size | Use Case |
+|-------|-------|----------|------|----------|
+| `tiny` | ⚡⚡⚡⚡⚡ | ⭐⭐ | 75MB | Ultra-fast, noisy environments |
+| `base` | ⚡⚡⚡⚡ | ⭐⭐⭐ | 142MB | ✅ **Recommended** - Balanced |
+| `small` | ⚡⚡⚡ | ⭐⭐⭐⭐ | 466MB | Better accuracy |
+| `medium` | ⚡⚡ | ⭐⭐⭐⭐⭐ | 1.5GB | High accuracy |
+| `large-v3` | ⚡ | ⭐⭐⭐⭐⭐⭐ | 2.9GB | Best accuracy |
 
-**After changing, delete the cached model:**
+**Clear cached models after changing:**
 ```powershell
 Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub
 ```
+
+### Hotkey Customization
+
+1. Click **Settings** button in app
+2. Enter new hotkey (e.g., `ctrl+shift+space`)
+3. Click **Save**
+
+---
+
+## 🎮 Usage Examples
+
+### Voice Commands
+Hold `Ctrl+Windows` and speak:
+
+**Launch Apps:**
+- "Open Chrome"
+- "Open Zoom Workplace"
+- "Open Windows Settings"
+- "Launch Spotify"
+
+**Browse Web:**
+- "Browse Carryminati YouTube"
+- "Search Python tutorial on YT"
+- "Open GitHub"
+
+**System Info:**
+- "CPU"
+- "RAM"
+- "Time"
+
+### Text Commands
+Type in the input box:
+
+```
+open notepad
+browse mr beast youtube
+search machine learning
+cpu
+settings
+```
+
+---
+
+## 🏗️ Project Structure
+
+```
+VISION_AI/
+├── vision_ai.py          # Main application (623 lines)
+├── requirements.txt      # Python dependencies
+├── Run_VISION.bat        # Quick launcher script
+├── setup_vision.py       # Setup helper
+├── VISION_AI.spec        # PyInstaller build spec
+├── README.md             # This file
+└── .gitignore            # Git exclusions
+```
+
+---
+
+## 🔧 Advanced Features
+
+### Microsoft Store (UWP) App Support
+VISION AI uses PowerShell `Get-StartApps` to resolve UWP app IDs:
+```python
+# Automatically handles:
+- Zoom Workplace
+- WhatsApp (desktop)
+- Spotify (Store version)
+- Any installed Store app
+```
+
+### Selenium Browser Automation
+- Persistent Chrome session (reuses same browser window)
+- Auto-recovery from session crashes
+- Configurable options in `automate_youtube()` method
+
+### Pattern Matching Engine
+Zero AI inference for instant responses:
+- Regex-based command parsing
+- 20+ app shortcuts with aliases
+- 10+ URL shortcuts
+- Extensible command system
+
+---
+
+## 🚧 Building Executable
+
+Create a standalone `.exe` (no Python required):
+
+```bash
+pyinstaller VISION_AI.spec
+```
+
+Output: `dist/VISION_AI.exe`
+
+---
+
+## 📝 Dependencies
+
+- **customtkinter** - Modern UI framework
+- **faster-whisper** - Offline voice recognition
+- **sounddevice** - Audio capture
+- **selenium** - Browser automation
+- **pystray** - System tray integration
+- **keyboard** - Hotkey monitoring
+- **psutil** - System stats
+
+See `requirements.txt` for full list.
+
+---
+
+## 🐛 Troubleshooting
+
+### App not opening?
+- **Microsoft Store apps**: Ensure app is installed and visible in Start menu
+- **Desktop apps**: Check if `.exe` is in system PATH
+- **Zoom**: VISION AI checks both classic and UWP versions
+
+### YouTube search not working?
+- Requires **Chrome** browser installed
+- First search downloads ChromeDriver (~10MB)
+- Check internet connection for Selenium WebDriver
+
+### Voice not recognized?
+- Speak clearly after beep sound
+- Hold `Ctrl+Windows` during entire phrase
+- Try larger Whisper model (`small` or `medium`)
+- Check microphone permissions in Windows Settings
+
+### High CPU usage?
+- Default `base` model uses ~200MB RAM
+- Switch to `tiny` model for lower resource usage
+- Close background apps during voice recognition
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Areas for improvement:
+- [ ] Add more app shortcuts
+- [ ] Support custom command macros
+- [ ] Multi-language support (Whisper supports 99 languages)
+- [ ] Plugin system for extensibility
+- [ ] Cross-platform support (Linux/macOS)
+
+---
+
+## 📜 License
+
+MIT License - See LICENSE file for details.
+
+---
+
+## 👨‍💻 Author
+
+**HIMANSHU (HR-894)**  
+GitHub: [@HR-894](https://github.com/HR-894)
+
+---
+
+## 🌟 Star This Repo!
+
+If you find VISION AI useful, please ⭐ this repository and share with friends!
+
+**Built with ❤️ for Windows power users**
 
 ### ✨ Key Features
 - **Ghost Mode:** Minimizes to System Tray, always ready.
