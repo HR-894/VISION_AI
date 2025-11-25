@@ -1,12 +1,3 @@
-# 👁️ VISION AI v2.1 - Ultra-Fast Voice Assistant
-
-> **Lightning-Fast, Pattern-Matching Voice Assistant for Windows**  
-> *Controlled via Push-to-Talk (Ctrl+Win) | Powered by Whisper | No LLM Required*
-
-![Status](https://img.shields.io/badge/Status-Active-brightgreen) 
-![Python](https://img.shields.io/badge/Python-3.13-blue) 
-![Speed](https://img.shields.io/badge/Response-<0.5s-orange)
-![Offline](https://img.shields.io/badge/Offline-Voice%20Only-purple)
 
 ---
 
@@ -16,21 +7,6 @@
 
 - ⚡ **Executes commands instantly** using pure pattern matching (no AI inference delays)
 - 🎤 **Recognizes voice offline** via Whisper (Hugging Face)
-- 🖥️ **Launches any app** - Desktop apps, Microsoft Store (UWP) apps, and web URLs
-- 🌐 **Automates browsers** with Selenium for YouTube searches and web tasks
-- 🔒 **Respects privacy** - No cloud, no telemetry, no data collection
-- 📊 **System monitoring** - Real-time CPU/RAM stats in UI
-- 🎨 **Modern UI** with CustomTkinter dark theme and system tray support
-
----
-
-## ✨ Key Features
-
-### 🎯 Smart Command Execution
-- **App Launcher**: Open any Windows app by name
-  - Desktop apps: `open notepad`, `open chrome`, `open vscode`
-  - Microsoft Store apps: `open zoom workplace`, `open whatsapp`
-  - System utilities: `open windows settings`, `open calculator`
   
 - **Browser Automation**: Intelligent YouTube search with Selenium
   - `browse dhruv rathee youtube` - Opens YouTube and searches
@@ -45,24 +21,6 @@
   - `cpu` - Show CPU usage
   - `ram` - Show memory usage
   - `time` / `date` - Current time/date
-
-### 🎤 Voice Recognition
-- **Whisper Model**: Offline speech-to-text (Hugging Face)
-- **Hotkey Activation**: Hold `Ctrl+Windows` to speak
-- **Text Input**: Type commands directly (with Enter key)
-- **Command History**: Navigate with Up/Down arrows
-
-### 🎨 User Interface
-- **Dark Theme**: Powered by CustomTkinter
-- **System Tray**: Minimize to tray, always accessible
-- **Settings Panel**: Customize hotkey (default: `Ctrl+Windows`)
-- **Live Stats**: CPU/RAM monitoring in header
-- **Chat History**: 10 recent commands stored
-- **Copy Feature**: Copy last response to clipboard
-
----
-
-## 🛠️ Installation
 
 ### Prerequisites
 - **Windows 10/11** (64-bit)
@@ -150,22 +108,6 @@ Hold `Ctrl+Windows` and speak:
 
 ### Text Commands
 Type in the input box:
-
-```
-open notepad
-browse mr beast youtube
-search machine learning
-cpu
-settings
-```
-
----
-
-## 🏗️ Project Structure
-
-```
-VISION_AI/
-├── vision_ai.py          # Main application (623 lines)
 ├── requirements.txt      # Python dependencies
 ├── Run_VISION.bat        # Quick launcher script
 ├── setup_vision.py       # Setup helper
