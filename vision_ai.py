@@ -79,7 +79,7 @@ class VisionAI(ctk.CTk):
         except:
             pass
 
-        self.title("VISION AI v2.0 Ultra")
+        self.title("VISION AI")
         self.geometry("900x700")
         ctk.set_appearance_mode("Dark")
         
@@ -619,8 +619,11 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
         text = " ".join(text.split())
         return text
     
+    
     def process_command(self, text):
         """Hybrid routing: Templates → Fast patterns → Simple → LLM (Fallback)"""
+        import time
+        start_time = time.time()
         
         # PRIORITY 1: Smart template matcher (handles 90% of variations - instant!)
         template_match = self.smart_templates.match(text)
@@ -629,6 +632,9 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
             if success:
                 self.update_status("✅ Online", "#00ff00")
                 winsound.Beep(1200, 80)
+                # Track in memory
+                elapsed = time.time() - start_time
+                self.memory.remember_command(text, True, elapsed, f"Template: {template_match['action']}")
                 return
         
         # PRIORITY 2: Fast complex handler (multi-step - instant!)
@@ -636,6 +642,9 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
         if result is True:
             self.update_status("✅ Online", "#00ff00")
             winsound.Beep(1200, 80)
+            # Track in memory
+            elapsed = time.time() - start_time
+            self.memory.remember_command(text, True, elapsed, "Fast complex handler")
             return
         elif result is None:
             return
@@ -644,6 +653,9 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
         if self.instant_execute(text.lower().strip()):
             self.update_status("✅ Online", "#00ff00")
             winsound.Beep(1200, 80)
+            # Track in memory
+            elapsed = time.time() - start_time
+            self.memory.remember_command(text, True, elapsed, "Pattern match")
             return
 
         # PRIORITY 4: LLM Fallback (for ambiguous/novel commands)
@@ -656,9 +668,15 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
         if actions:
             self.executor.execute_plan(actions)
             self.update_status("✅ Online", "#00ff00")
+            # Track in memory
+            elapsed = time.time() - start_time
+            self.memory.remember_command(text, True, elapsed, f"LLM: {len(actions)} actions", actions)
         else:
             self.add_message("VISION", "🤷 I didn't understand that command.")
             self.update_status("⚠️ Unknown", "orange")
+            # Track failure in memory
+            elapsed = time.time() - start_time
+            self.memory.remember_command(text, False, elapsed, "Not understood")
 
     def open_windows_settings(self):
         try:
@@ -1058,8 +1076,8 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
                     self.add_message("Error", f"Failed to open: {str(e)[:80]}")
                     return True
             
-            # Also try expanding user paths like ~/Downloads/file.txt
-            expanded_path = os.path.expanduser(full_target)
+            # Also try expanding user paths like ~/Downloads/file.txt and %USERPROFILE%\Documents
+            expanded_path = os.path.expandvars(os.path.expanduser(full_target))
             if os.path.exists(expanded_path):
                 try:
                     os.startfile(expanded_path)
@@ -1140,29 +1158,27 @@ VISION AI is your voice & text command assistant. Lightning-fast pattern matchin
             from selenium.common.exceptions import InvalidSessionIdException, WebDriverException
             import time
             
-            # Check if browser exists and is valid
-            browser_valid = False
+            # FIXED: Close existing browser to prevent memory leak
             if self.browser:
                 try:
-                    # Test if browser is still alive
-                    self.browser.current_url
-                    browser_valid = True
-                except (InvalidSessionIdException, WebDriverException):
+                    self.browser.quit()
+                except:
+                    pass
+                finally:
                     self.browser = None
             
-            # Create new browser if needed
-            if not browser_valid:
-                from selenium import webdriver
-                from selenium.webdriver.chrome.service import Service
-                from selenium.webdriver.chrome.options import Options
-                from webdriver_manager.chrome import ChromeDriverManager
-                
-                opts = Options()
-                opts.add_argument("--start-maximized")
-                opts.add_argument("--disable-blink-features=AutomationControlled")
-                opts.add_experimental_option("excludeSwitches", ["enable-logging", "enable-automation"])
-                opts.add_experimental_option("useAutomationExtension", False)
-                self.browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opts)
+            # Create new browser
+            from selenium import webdriver
+            from selenium.webdriver.chrome.service import Service
+            from selenium.webdriver.chrome.options import Options
+            from webdriver_manager.chrome import ChromeDriverManager
+            
+            opts = Options()
+            opts.add_argument("--start-maximized")
+            opts.add_argument("--disable-blink-features=AutomationControlled")
+            opts.add_experimental_option("excludeSwitches", ["enable-logging", "enable-automation"])
+            opts.add_experimental_option("useAutomationExtension", False)
+            self.browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=opts)
             
             self.browser.get("https://www.youtube.com")
             time.sleep(1.5)

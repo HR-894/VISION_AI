@@ -1,286 +1,396 @@
+# 👁️ VISION AI
+
+**Your Intelligent AI Voice & Text Assistant for Windows**
+
+100% Local • Privacy-First • Adaptive AI • Multi-Step Planning
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Platform: Windows](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://www.microsoft.com/windows)
 
 ---
 
-## 🚀 What is VISION AI?
+## 🌟 Features
 
-**VISION AI** is a **blazing-fast, offline-capable voice assistant** designed for Windows power users. Unlike bloated AI assistants that require internet and cloud processing, VISION AI:
+- 🎤 **Voice Commands** - Whisper AI (90-95% accuracy)
+- 🧠 **LLM Planning** - Multi-step task automation with Llama
+- 🔒 **100% Private** - All AI runs locally on YOUR device
+- ⚡ **Adaptive Performance** - Auto-optimizes for your hardware
+- 🧠 **Smart Memory** - Learns from your commands
+- 🌐 **Web Search** - DuckDuckGo integration (optional)
+- 📂 **File Management** - List, search, open files
+- 🎬 **YouTube Automation** - Voice-controlled browsing
+- 🪟 **Window Controls** - Manage apps, take screenshots
+- 💻 **System Monitoring** - CPU, RAM, and more
 
-- ⚡ **Executes commands instantly** using pure pattern matching (no AI inference delays)
-- 🎤 **Recognizes voice offline** via Whisper (Hugging Face)
-  
-- **Browser Automation**: Intelligent YouTube search with Selenium
-  - `browse dhruv rathee youtube` - Opens YouTube and searches
-  - `search coding tutorial yt` - Alternative syntax
-  - Persistent browser session (no repeated Chrome launches)
+---
 
-- **Web Shortcuts**: Quick access to common sites
-  - `open github`, `open gmail`, `open reddit`
-  - `search python tutorials` - Google search
+## 📋 Requirements
 
-- **System Info**: On-demand stats
-  - `cpu` - Show CPU usage
-  - `ram` - Show memory usage
-  - `time` / `date` - Current time/date
+### Minimum System Requirements
+- **OS:** Windows 10/11 (64-bit)
+- **RAM:** 4GB (8GB+ recommended)
+- **Storage:** 2GB free space
+- **Python:** 3.10 or higher (for running from source)
 
-### Prerequisites
-- **Windows 10/11** (64-bit)
-- **Python 3.10+** (Tested on Python 3.13)
-- **Git** (optional, for cloning)
+### For .exe Distribution (No Python needed!)
+- Just Windows 10/11 64-bit
+- 2GB free space
 
-### Quick Setup
+---
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/HR-894/VISION_AI.git
+## 🚀 Quick Start (Using .exe)
+
+### Option 1: Pre-built Executable
+
+1. **Download** the `VISION_AI.zip` from releases
+2. **Extract** to any folder
+3. **Download Models** (first time only):
+   ```powershell
+   # Create models folder
    cd VISION_AI
+   mkdir models
+   
+   # Download Llama model (770MB)
+   # Visit: https://huggingface.co/TheBloke/Llama-3.2-1B-Instruct-GGUF
+   # Download: Llama-3.2-1B-Instruct-Q4_K_M.gguf
+   # Place in: models/
    ```
+4. **Run** `VISION_AI.exe`
 
-2. **Create Virtual Environment**
-   ```bash
-   python -m venv .venv
-   .venv\Scripts\activate
-   ```
-
-3. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run VISION AI**
-   ```bash
-   python vision_ai.py
-   ```
-   Or double-click `Run_VISION.bat`
+**First launch will:**
+- Detect your hardware
+- Load Whisper model (auto-download ~1GB)
+- Initialize LLM
+- Start GUI (~30 seconds total)
 
 ---
 
-## ⚙️ Configuration
+## 🛠️ Installation (From Source)
 
-### Whisper Model Selection
-
-Edit `vision_ai.py` (line 17) to change voice recognition accuracy:
-
-```python
-WHISPER_SIZE = "base"  # Change this
-```
-
-| Model | Speed | Accuracy | Size | Use Case |
-|-------|-------|----------|------|----------|
-| `tiny` | ⚡⚡⚡⚡⚡ | ⭐⭐ | 75MB | Ultra-fast, noisy environments |
-| `base` | ⚡⚡⚡⚡ | ⭐⭐⭐ | 142MB | ✅ **Recommended** - Balanced |
-| `small` | ⚡⚡⚡ | ⭐⭐⭐⭐ | 466MB | Better accuracy |
-| `medium` | ⚡⚡ | ⭐⭐⭐⭐⭐ | 1.5GB | High accuracy |
-| `large-v3` | ⚡ | ⭐⭐⭐⭐⭐⭐ | 2.9GB | Best accuracy |
-
-**Clear cached models after changing:**
-```powershell
-Remove-Item -Recurse -Force $env:USERPROFILE\.cache\huggingface\hub
-```
-
-### Hotkey Customization
-
-1. Click **Settings** button in app
-2. Enter new hotkey (e.g., `ctrl+shift+space`)
-3. Click **Save**
-
----
-
-## 🎮 Usage Examples
-
-### Voice Commands
-Hold `Ctrl+Windows` and speak:
-
-**Launch Apps:**
-- "Open Chrome"
-- "Open Zoom Workplace"
-- "Open Windows Settings"
-- "Launch Spotify"
-
-**Browse Web:**
-- "Browse Carryminati YouTube"
-- "Search Python tutorial on YT"
-- "Open GitHub"
-
-**System Info:**
-- "CPU"
-- "RAM"
-- "Time"
-
-### Text Commands
-Type in the input box:
-├── requirements.txt      # Python dependencies
-├── Run_VISION.bat        # Quick launcher script
-├── setup_vision.py       # Setup helper
-├── VISION_AI.spec        # PyInstaller build spec
-├── README.md             # This file
-└── .gitignore            # Git exclusions
-```
-
----
-
-## 🔧 Advanced Features
-
-### Microsoft Store (UWP) App Support
-VISION AI uses PowerShell `Get-StartApps` to resolve UWP app IDs:
-```python
-# Automatically handles:
-- Zoom Workplace
-- WhatsApp (desktop)
-- Spotify (Store version)
-- Any installed Store app
-```
-
-### Selenium Browser Automation
-- Persistent Chrome session (reuses same browser window)
-- Auto-recovery from session crashes
-- Configurable options in `automate_youtube()` method
-
-### Pattern Matching Engine
-Zero AI inference for instant responses:
-- Regex-based command parsing
-- 20+ app shortcuts with aliases
-- 10+ URL shortcuts
-- Extensible command system
-
----
-
-## 🚧 Building Executable
-
-Create a standalone `.exe` (no Python required):
+### Step 1: Clone Repository
 
 ```bash
-pyinstaller VISION_AI.spec
+# Clone the repo
+git clone https://github.com/YOUR_USERNAME/VISION_AI.git
+cd VISION_AI
 ```
 
-Output: `dist/VISION_AI.exe`
+### Step 2: Create Virtual Environment
+
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate (Windows PowerShell)
+.\.venv\Scripts\Activate.ps1
+
+# Activate (Windows CMD)
+.venv\Scripts\activate.bat
+
+# Activate (Git Bash)
+source .venv/Scripts/activate
+```
+
+### Step 3: Install Dependencies
+
+```bash
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install all requirements
+pip install -r requirements.txt
+
+# This installs:
+# - customtkinter (GUI)
+# - faster-whisper (voice recognition)
+# - llama-cpp-python (LLM)
+# - selenium (automation)
+# - and 15+ other packages
+```
+
+### Step 4: Download AI Models
+
+```bash
+# Create models directory
+mkdir models
+
+# Download Llama-3.2-1B model (770MB)
+# Manual download required from:
+# https://huggingface.co/TheBloke/Llama-3.2-1B-Instruct-GGUF/blob/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf
+
+# Or use wget (if installed):
+wget -P models/ https://huggingface.co/TheBloke/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf
+```
+
+**Model Storage:**
+```
+VISION_AI/
+└── models/
+    └── Llama-3.2-1B-Instruct-Q4_K_M.gguf  (770MB)
+```
+
+**Note:** Whisper model auto-downloads on first run (~1GB)
+
+### Step 5: Run Application
+
+```bash
+# Make sure virtual environment is activated
+python vision_ai.py
+```
 
 ---
 
-## 📝 Dependencies
+## 🎯 Usage
 
-- **customtkinter** - Modern UI framework
-- **faster-whisper** - Offline voice recognition
-- **sounddevice** - Audio capture
-- **selenium** - Browser automation
-- **pystray** - System tray integration
-- **keyboard** - Hotkey monitoring
-- **psutil** - System stats
+### Voice Commands
+1. Hold `Ctrl+Windows` key
+2. Speak your command
+3. Release key when done
 
-See `requirements.txt` for full list.
+### Text Commands
+- Type in the input box
+- Press Enter or click Send
+- Use ↑↓ for command history
+
+### Example Commands
+
+**File Operations:**
+```
+list downloads
+open C:\Users\YourName\Documents\file.txt
+open %USERPROFILE%\Desktop
+find *.pdf
+```
+
+**Apps & Web:**
+```
+open chrome
+open notepad
+search python tutorial
+youtube physics lectures
+```
+
+**YouTube (Context-Aware):**
+```
+browse quantum physics youtube
+play first video
+next video
+pause
+```
+
+**Multi-Step (LLM Planning):**
+```
+list downloads to google keep
+open notepad and write hello world
+```
+
+**System:**
+```
+cpu
+ram
+screenshot
+volume 50
+time
+```
 
 ---
 
-## 🐛 Troubleshooting
+## 🏗️ Building Executable
 
-### App not opening?
-- **Microsoft Store apps**: Ensure app is installed and visible in Start menu
-- **Desktop apps**: Check if `.exe` is in system PATH
-- **Zoom**: VISION AI checks both classic and UWP versions
+Want to create your own `.exe` file?
 
-### YouTube search not working?
-- Requires **Chrome** browser installed
-- First search downloads ChromeDriver (~10MB)
-- Check internet connection for Selenium WebDriver
+```bash
+# Install PyInstaller
+pip install pyinstaller
 
-### Voice not recognized?
-- Speak clearly after beep sound
-- Hold `Ctrl+Windows` during entire phrase
-- Try larger Whisper model (`small` or `medium`)
-- Check microphone permissions in Windows Settings
+# Build executable (this takes ~5 minutes)
+pyinstaller --onedir --noconsole --name="VISION_AI" --clean vision_ai.py
 
-### High CPU usage?
-- Default `base` model uses ~200MB RAM
-- Switch to `tiny` model for lower resource usage
-- Close background apps during voice recognition
+# Output will be in:
+# dist/VISION_AI/
+# ├── VISION_AI.exe (8.92 MB)
+# └── _internal/ (279 MB)
+```
+
+**To distribute:**
+1. Zip the entire `dist/VISION_AI/` folder
+2. Share the ZIP file (~288 MB compressed)
+3. Users extract and run `VISION_AI.exe`
+4. Users need to download models separately
+
+---
+
+## 📦 Distribution Guide
+
+### For Friends/Users:
+
+**Package Contents:**
+```
+VISION_AI/
+├── VISION_AI.exe          (Main app - 8.92 MB)
+├── _internal/             (Dependencies - 279 MB)
+│   ├── Python runtime
+│   ├── AI libraries
+│   └── System files
+└── models/                (User must download)
+    └── Llama-3.2-1B-Instruct-Q4_K_M.gguf
+```
+
+**Share:**
+- ✅ `VISION_AI.exe` 
+- ✅ `_internal/` folder
+- 📝 Link to model download
+
+**Users need BOTH .exe and _internal folder!**
+
+---
+
+## 🧪 Testing
+
+Run automated test suite:
+
+```bash
+# Create test file (if not exists)
+# test_suite.py should be in repo
+
+# Run tests
+python test_suite.py
+
+# Expected output:
+# Total Tests: 33
+# Passed: 33
+# Success Rate: 100%
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### "DLL load failed" or "Module not found"
+```bash
+# Reinstall dependencies
+pip install --force-reinstall -r requirements.txt
+```
+
+### Whisper Model Download Fails
+```bash
+# Manual download alternative
+# Visit: https://huggingface.co/guillaumekln/faster-whisper-medium
+# Or use different size: base, small, medium, large-v3
+```
+
+### LLM Model Not Found
+```bash
+# Check models folder exists
+ls models/
+
+# Verify filename exactly matches:
+# Llama-3.2-1B-Instruct-Q4_K_M.gguf
+```
+
+### Microphone Not Working
+- Check Windows microphone permissions
+- Try different hotkey in Settings
+- Ensure no other app is using microphone
+
+### High RAM Usage
+- Normal for LOW-END: 400-600 MB
+- Normal for HIGH-END: 800-1200 MB
+- App auto-adapts to your hardware
+
+---
+
+## 📚 Project Structure
+
+```
+VISION_AI/
+├── vision_ai.py                 # Main application
+├── context_manager.py           # Context awareness
+├── safety_guard.py              # Command validation
+├── file_manager.py              # File operations
+├── window_manager.py            # Window controls
+├── llm_controller.py            # LLM integration
+├── action_executor.py           # Action execution
+├── smart_template_matcher.py   # Pattern matching
+├── fast_complex_handler.py     # Complex commands
+├── agent_memory.py             # Command learning
+├── web_search.py               # Web integration
+├── device_profiler.py          # Hardware detection
+├── requirements.txt            # Dependencies
+├── README.md                   # This file
+└── models/                     # AI models
+    └── Llama-3.2-1B-Instruct-Q4_K_M.gguf
+```
+
+---
+
+## 🔐 Privacy
+
+**100% Local AI Processing:**
+- ✅ Voice recognition (Whisper) - runs locally
+- ✅ LLM planning (Llama) - runs locally
+- ✅ Command history - stored locally only
+- ✅ No telemetry or data collection
+
+**Optional Internet Usage:**
+- 🌐 Web search (DuckDuckGo) - only when you use search commands
+- 🌐 YouTube automation - only when you browse YouTube
+- 🌐 Model downloads - one-time initial setup
+
+See [PRIVACY.md](PRIVACY.md) for full details.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! Areas for improvement:
-- [ ] Add more app shortcuts
-- [ ] Support custom command macros
-- [ ] Multi-language support (Whisper supports 99 languages)
-- [ ] Plugin system for extensibility
-- [ ] Cross-platform support (Linux/macOS)
+Contributions are welcome! 
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
 ---
 
-## 📜 License
+## 📄 License
 
-MIT License - See LICENSE file for details.
-
----
-
-## 👨‍💻 Author
-
-**HIMANSHU (HR-894)**  
-GitHub: [@HR-894](https://github.com/HR-894)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🌟 Star This Repo!
+## 🙏 Acknowledgments
 
-If you find VISION AI useful, please ⭐ this repository and share with friends!
-
-**Built with ❤️ for Windows power users**
-
-### ✨ Key Features
-- **Ghost Mode:** Minimizes to System Tray, always ready.
-- **Universal Launcher:** Open *any* app just by saying its name ("Open Excel", "Open Spotify").
-- **Web Intelligence:** Smart enough to open websites ("Open youtube.com").
-- **Privacy Core:** 0% Data leaves your device. Everything runs on localhost.
+- **Whisper** - OpenAI (via faster-whisper)
+- **Llama** - Meta AI (via llama-cpp-python)
+- **CustomTkinter** - TomSchimansky
+- **Selenium** - SeleniumHQ
+- All other open-source contributors
 
 ---
 
-## 🛠️ Installation (For Developers)
+## 📞 Support
 
-If you want to run the code manually, follow these steps strictly to avoid errors.
+- **Issues:** [GitHub Issues](https://github.com/YOUR_USERNAME/VISION_AI/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/YOUR_USERNAME/VISION_AI/discussions)
 
-### Prerequisites
-1. **Python 3.10+** installed.
-2. **Git** installed.
+---
 
-### Step-by-Step Setup
+## 🚀 Roadmap
 
-1. **Clone the Repo:**
-   ```bash
-   git clone [https://github.com/HR-894/vision-ai.git](https://github.com/HR-894/vision-ai.git)
-   cd vision-ai
+- [x] Voice recognition (Whisper)
+- [x] LLM planning (Llama)
+- [x] Adaptive performance
+- [x] Memory system
+- [x] Web search
+- [ ] Computer vision (PaddleOCR)
+- [ ] Multi-monitor support
+- [ ] Plugin system
+- [ ] Cloud sync (optional)
 
-2. Install Dependencies (The Right Way): Run this EXACT command to avoid C++ Build Tools errors:
-   ```bash
-   pip install llama-cpp-python --extra-index-url [https://abetlen.github.io/llama-cpp-python/whl/cpu](https://abetlen.github.io/llama-cpp-python/whl/cpu)
+---
 
-Then install the rest:
-   ```bash
-   pip install faster-whisper pystray Pillow sounddevice keyboard psutil scipy numpy pyinstaller
-   
-3. Download the Brain (Model): Create a folder named models and run this command:
-   ```bashPowerShell
-   mkdir models
-   curl -L -o models/Llama-3.2-1B-Instruct-Q4_K_M.gguf "[https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf?download=true](https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-Q4_K_M.gguf?download=true)"
+**Made with ❤️ for productivity and privacy**
 
-4. Run the Assistant: Double click Run_VISION.bat OR run:
-   ```bash
-   python vision_ai.py
-
- 🎮 How to Use
-
-App will launch and minimize to System Tray (near clock).
-
-Hold Ctrl + Windows key.
-
-Speak your command (e.g., "Open Notepad", "Search Tesla stock").
-
-Release keys. Watch the magic! ✨
-
-🏗️ Build EXE (Create Standalone App)
-
-To create a shareable .exe file for friends:
-```bash
-pyinstaller --noconfirm --onefile --windowed --name "VISION_AI" --icon "NONE" --add-data "models;models" --collect-all "llama_cpp" --collect-all "faster_whisper" --collect-all "sounddevice" --collect-all "keyboard" --collect-all "psutil" --hidden-import="pystray" --hidden-import="PIL" vision_ai.py
-
-The output file will be in the dist folder.
-
-Built with ❤️ by HIMANSHU ~HR-894
+*VISION AI - See what's possible with local AI*

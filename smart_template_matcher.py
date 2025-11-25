@@ -13,7 +13,32 @@ class SmartTemplateMatcher:
         self.vision = vision_ai
         
         # Define command templates with variable slots
+        # IMPORTANT: Order matters! Most specific patterns first
         self.templates = [
+            # App operations (MUST come before file operations to avoid conflicts)
+            {
+                'pattern': r'^(?:open|launch|start|run)\s+(.+?)\s+(?:and|then)\s+(.+)',
+                'action': 'open_and_do',
+                'extract': ['app', 'action']
+            },
+            {
+                'pattern': r'^(?:open|launch|start|run)\s+([a-zA-Z][a-zA-Z0-9\s]+)$',
+                'action': 'open_app',
+                'extract': ['app']
+            },
+            
+            # Web search (specific patterns to avoid conflict with file search)
+            {
+                'pattern': r'^(?:search|google|browse)\s+(?:for\s+)?([^/\\]+)$',
+                'action': 'search_web',
+                'extract': ['query']
+            },
+            {
+                'pattern': r'^(?:search|find)\s+(.+?)\s+(?:on\s+)?(?:google|web|internet)',
+                'action': 'search_web',
+                'extract': ['query']
+            },
+            
             # File operations
             {
                 'pattern': r'(?:list|show|display|get)\s+(?:all\s+)?(?:files?\s+)?(?:in\s+)?(.+?)(?:\s+folder|\s+directory|$)',
@@ -26,7 +51,7 @@ class SmartTemplateMatcher:
                 'extract': ['file_type', 'location']
             },
             {
-                'pattern': r'(?:find|search|locate)\s+(?:all\s+)?(.+?)(?:\s+files?)?$',
+                'pattern': r'(?:find|locate)\s+(?:all\s+)?(.+?)(?:\s+files?)?$',
                 'action': 'search_files',
                 'extract': ['file_type']
             },
@@ -48,7 +73,7 @@ class SmartTemplateMatcher:
             
             # Multi-step operations
             {
-                'pattern': r'(?:list|show)\s+(.+?)\s+(?:in|to)\s+(.+)',
+                'pattern': r'(?:list|show)\s+(.+?)\s+(?:in|to)\s+(google|keep|notepad|docs?|chrome)',
                 'action': 'list_to_app',
                 'extract': ['what', 'where']
             },
@@ -58,12 +83,7 @@ class SmartTemplateMatcher:
                 'extract': ['content', 'app']
             },
             
-            # App operations
-            {
-                'pattern': r'open\s+(.+?)\s+(?:and|then)\s+(.+)',
-                'action': 'open_and_do',
-                'extract': ['app', 'action']
-            },
+            # Search in app (less specific, comes last)
             {
                 'pattern': r'(?:search|find)\s+(.+?)\s+(?:in|on)\s+(.+)',
                 'action': 'search_in_app',
